@@ -49,8 +49,7 @@ jobs:
         run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -manualLicenseFile .github/Unity_v2019.4.27f1.ulf || exit 0
         
       - name: Build Win64
-        run: ./BuildScripts/deploy.sh
-        #run: /opt/Unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -noUpm -logFile - projectPath /home/runner/work/rolltheball/rolltheball -buildWindows64Player ./builds/Win64/RollTheBall.exe
+        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath '.' -executeMethod BuildScript.PerformWindowsx64Build
 
         # Runs a single command using the runners shell
         # Note: repo is created at /home/runner/work/rolltheball/rolltheball
