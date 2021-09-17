@@ -46,7 +46,7 @@ jobs:
         run: openssl rc2-64-cbc -md sha1 -d -in .github/Unity_v2019.x.ulf.enc -k ${{secrets.UNITY_LICENSE_DECRYPT_KEY}} >> .github/Unity_v2019.4.27f1.ulf
 
       - name: Activate Unity
-        run: /opt/Unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -manualLicenseFile .github/Unity_v2019.4.27f1.ulf
+        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -manualLicenseFile .github/Unity_v2019.4.27f1.ulf
         
       - name: Build Win64
         run: /home/runner/work/rolltheball/rolltheball/BuildScripts/deploy.sh
