@@ -19,13 +19,42 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
+    container: unityci/editor:ubuntu-2019.4.27f1-windows-mono-0.15.0
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # Documentation: https://github.com/actions/checkout
       - uses: actions/checkout@v2
+        with:
+          # The branch, tag or SHA to checkout. When checking out the repository that
+          # triggered a workflow, this defaults to the reference or SHA for that event.
+          # Otherwise, uses the default branch.
+          ref: 'master'
+          # Personal access token (PAT) used to fetch the repository. The PAT is configured
+          # with the local git config, which enables your scripts to run authenticated git
+          # commands. The post-job step removes the PAT.
+          #
+          # We recommend using a service account with the least permissions necessary. Also
+          # when generating a new PAT, select the least scopes necessary.
+          #
+          # [Learn more about creating and using encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
+          #
+          # Default: ${{ github.token }}
+          token: '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'
+      
+      - name: Decrypt the license file
+        run: openssl aes-256-cbc -d -in .github/Unity_v2019.x.ulf.enc -k ${{secrets.UNITY_DECRYPT_KEY}} >> .github/Unity_v2019.4.27f1.ulf
 
-      # Runs a single command using the runners shell
+      - name: Activate Unity
+        run: /opt/Unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -manualLicenseFile .github/Unity_v2019.4.27f1.ulf
+        
+      - name: Build Win64
+        run: /home/runner/work/rolltheball/rolltheball/BuildScripts/deploy.sh
+        #run: /opt/Unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -noUpm -logFile - projectPath /home/runner/work/rolltheball/rolltheball -buildWindows64Player ./builds/Win64/RollTheBall.exe
+
+        # Runs a single command using the runners shell
+        # Note: repo is created at /home/runner/work/rolltheball/rolltheball
+
       - name: Run a one-line script
         run: echo Hello, world!
 
