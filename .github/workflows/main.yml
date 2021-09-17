@@ -40,7 +40,7 @@ jobs:
           # [Learn more about creating and using encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
           #
           # Default: ${{ github.token }}
-          token: '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'
+          token: ${{secrets.ACTIONS_BUILD_TOKEN}}
       
       - name: Decrypt the license file
         run: openssl aes-256-cbc -d -in .github/Unity_v2019.x.ulf.enc -k ${{secrets.UNITY_DECRYPT_KEY}} >> .github/Unity_v2019.4.27f1.ulf
