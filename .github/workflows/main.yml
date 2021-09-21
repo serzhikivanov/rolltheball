@@ -49,8 +49,11 @@ jobs:
         run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -manualLicenseFile .github/Unity_v2019.4.27f1.ulf || exit 0
        
       - name: Run Tests
-        run: /opt/unity/Editor/Unity -runTests -batchmode -projectPath '.' -testResults 'testResults/testResults.xml' -testPlatform Android
+        run: /opt/unity/Editor/Unity -runTests -batchmode -projectPath '.' -testResults './testResults/testResults.xml' -testPlatform Android
       
+      - name: Output test results
+        run: cat './testResults/testResults.xml'
+
       #- name: Build Win64
       #  run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath '.' -executeMethod BuildScript.PerformWindowsx64Build
 
