@@ -48,7 +48,10 @@ jobs:
       - name: Activate Unity
         run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -manualLicenseFile .github/Unity_v2019.4.27f1.ulf || exit 0
        
-      - name: Run Tests
+      - name: Run Editor Tests
+        run: /opt/unity/Editor/Unity -runEditorTests -batchmode -nographics -projectPath '.' -editorTestsResultFile './testResults/editorTestResults.xml'
+
+      - name: Run Player Tests
         run: /opt/unity/Editor/Unity -runTests -batchmode -nographics -projectPath '.' -testResults './testResults/testResults.xml' -testPlatform Android
       
       - name: Output test results
