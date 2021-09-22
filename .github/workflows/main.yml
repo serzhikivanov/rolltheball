@@ -52,7 +52,7 @@ jobs:
         run: /opt/unity/Editor/Unity -runEditorTests -batchmode -nographics -projectPath '.' -editorTestsResultFile './testResults/editorTestResults.xml'
 
       - name: Run Player Tests
-        run: /opt/unity/Editor/Unity -runTests -batchmode -nographics -projectPath '.' -testResults './testResults/testResults.xml' -testPlatform Android
+        run: /opt/unity/Editor/Unity -runTests -batchmode -nographics -projectPath '.' -testResults './testResults/testResults.xml' -testPlatform android
       
       - name: Output test results
         run: cat './testResults/testResults.xml'
