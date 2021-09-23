@@ -19,7 +19,7 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    container: unityci/editor:ubuntu-2019.4.27f1-windows-mono-0.15.0
+    container: unityci/editor:ubuntu-2019.4.27f1-android-0.15.0
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -99,8 +99,8 @@ jobs:
       - name: Build Android
         run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath '.' -executeMethod BuildScript.PerformAndroidBuild
 
-      - name: Build iOS
-        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath '.' -executeMethod BuildScript.PerformIOsBuild
+      #- name: Build iOS
+      #  run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath '.' -executeMethod BuildScript.PerformIOsBuild
 
       - name: Build dir content
         run: ls -la ./builds/
@@ -108,8 +108,8 @@ jobs:
       - name: Android build details
         run: ls -la ./builds/Android/
 
-      - name: iOS build details
-        run: ls -la ./builds/iOS/
+      #- name: iOS build details
+      #  run: ls -la ./builds/iOS/
         
       #- name: Build WebGL
       #  run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath '.' -executeMethod BuildScript.PerformWebGLBuild
@@ -124,12 +124,12 @@ jobs:
             notifyTesters: false
             debug: false
 
-      - name: Upload iOS artefacts to Appcenter
-        uses: wzieba/AppCenter-Github-Action@v1
-        with:
-            appName: serzhik.ivanov-gmail.com/Roll-The-Ball-iOS
-            token: ${{secrets.APPCENTER_RTB_IOS_TOKEN}}
-            group: Testers
-            file: ./builds/iOS/RollTheBall.ipa
-            notifyTesters: false
-            debug: false
+      #- name: Upload iOS artefacts to Appcenter
+      #  uses: wzieba/AppCenter-Github-Action@v1
+      #  with:
+      #      appName: serzhik.ivanov-gmail.com/Roll-The-Ball-iOS
+      #      token: ${{secrets.APPCENTER_RTB_IOS_TOKEN}}
+      #      group: Testers
+      #      file: ./builds/iOS/RollTheBall.ipa
+      #      notifyTesters: false
+      #      debug: false
