@@ -48,8 +48,8 @@ jobs:
       - name: Activate Unity
         run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -manualLicenseFile .github/Unity_v2019.4.27f1.ulf || exit 0
        
-      - name: Run Editor Tests
-        run: /opt/unity/Editor/Unity -runEditorTests -batchmode -nographics -projectPath '.' -editorTestsResultFile './testResults/editorTestResults.xml'
+      #- name: Run Editor Tests
+      #  run: /opt/unity/Editor/Unity -runEditorTests -batchmode -nographics -projectPath '.' -editorTestsResultFile './testResults/editorTestResults.xml'
 
       #- name: Run Player Tests
       #  run: /opt/unity/Editor/Unity -buildTarget Android -testPlatform Android -runTests -batchmode -nographics -projectPath '.' -testResults './testResults/testResults.xml'
@@ -93,17 +93,23 @@ jobs:
       #      # Optional priority: 'high', 'normal' (default) or 'low'
       #      priority: low
 
-      - name: Build Win64
+      - name: Build Win64 
         run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath '.' -executeMethod BuildScript.PerformWindowsx64Build
 
       - name: Build Android
-        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath '.' -executeMethod BuildScript.PerformAndroidBuild
+        run: ls -la ./builds/
 
-      - name: Build iOS
-        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath '.' -executeMethod BuildScript.PerformIOsBuild
+      - name: Build Android
+        run: ls -la ./builds/Winx64/
 
-      - name: Build WebGL
-        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath '.' -executeMethod BuildScript.PerformWebGLBuild
+      #- name: Build Android
+      #  run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath '.' -executeMethod BuildScript.PerformAndroidBuild
+
+      #- name: Build iOS
+      #  run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath '.' -executeMethod BuildScript.PerformIOsBuild
+
+      #- name: Build WebGL
+      #  run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath '.' -executeMethod BuildScript.PerformWebGLBuild
 
       - name: Upload Win x64 artefacts to Appcenter
         uses: wzieba/AppCenter-Github-Action@v1
