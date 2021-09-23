@@ -103,6 +103,9 @@ jobs:
         run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath '.' -executeMethod BuildScript.PerformIOsBuild
 
       - name: Android build details
+        run: ls -la ./builds/
+
+      - name: Android build details
         run: ls -la ./builds/Android/
 
       - name: iOS build details
