@@ -112,5 +112,5 @@ jobs:
             token: ${{secrets.APPCENTER_RTB_TOKEN}}
             group: Testers
             file: ./builds/Winx64/RollTheBall_x64.exe
-            notifyTesters: true
+            notifyTesters: false
             debug: false
