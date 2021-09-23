@@ -13,11 +13,15 @@ public class BuildScript
     {
         CreateAndroidDir();
 
-        BuildPipeline.BuildPlayer(
-            _targetScenes,
-            "./builds/Android/RollTheBall.apk",
-            BuildTarget.Android,
-            BuildOptions.None);
+        var options = new BuildPlayerOptions()
+        {
+            locationPathName = "./builds/Android/",
+            scenes = _targetScenes,
+            target = BuildTarget.Android,
+            options = BuildOptions.None
+        };
+
+        BuildPipeline.BuildPlayer(options);
     }
 
     public static void PerformIOsBuild()
@@ -26,7 +30,7 @@ public class BuildScript
 
         BuildPipeline.BuildPlayer(
             _targetScenes,
-            "./builds/iOS/RollTheBall.ipa",
+            "./builds/iOS/",
             BuildTarget.iOS,
             BuildOptions.None);
     }
