@@ -1,0 +1,87 @@
+name: RTB iOS
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: unityci/editor:ubuntu-2019.4.27f1-ios-0.15.0
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: 'master'
+
+          token: ${{secrets.ACTIONS_BUILD_TOKEN}}
+      
+      - name: Decrypt the license file
+        run: openssl rc2-64-cbc -md sha1 -d -in .github/Unity_v2019.x.ulf.enc -k ${{secrets.UNITY_LICENSE_DECRYPT_KEY}} >> .github/Unity_v2019.4.27f1.ulf
+
+      - name: Activate Unity
+        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -manualLicenseFile .github/Unity_v2019.4.27f1.ulf || exit 0
+       
+      #- name: Run Editor Tests
+      #  run: /opt/unity/Editor/Unity -runEditorTests -batchmode -nographics -projectPath '.' -editorTestsResultFile './testResults/editorTestResults.xml'
+
+      #- name: Run Player Tests
+      #  run: /opt/unity/Editor/Unity -buildTarget Android -testPlatform Android -runTests -batchmode -nographics -projectPath '.' -testResults './testResults/testResults.xml'
+      
+      #- name: Send mail
+      #  uses: dawidd6/action-send-mail@v3
+      #  with:
+      #      # Required mail server address:
+      #      server_address: smtp.gmail.com
+      #      # Required mail server port:
+      #      server_port: 465
+      #      # Optional (recommended): mail server username:
+      #      username: ${{secrets.MAIL_USERNAME}}
+      #      # Optional (recommended) mail server password:
+      #      password: ${{secrets.MAIL_PASSWORD}}
+      #      # Required mail subject:
+      #      subject: RollTheBall Editor Test run results
+      #      # Required recipients' addresses:
+      #      to: serzhik.ivanov@gmail.com
+      #      # Required sender full name (address can be skipped):
+      #      from: Github Actions # <user@example.com>
+      #      # Optional whether this connection use TLS (default is true if server_port is 465)
+      #      secure: true
+      #      # Optional plain body:
+      #      body: Attached is the result of running Editor tests for ${{github.repository}} 
+      #      # Optional HTML body read from file:
+      #      #html_body: file://README.html
+      #      # Optional carbon copy recipients:
+      #      #cc: kyloren@example.com,leia@example.com
+      #      # Optional blind carbon copy recipients:
+      #      #bcc: r2d2@example.com,hansolo@example.com
+      #      # Optional recipient of the email response:
+      #      #reply_to: luke@example.com
+      #      # Optional unsigned/invalid certificates allowance:
+      #      ignore_cert: true
+      #      # Optional converting Markdown to HTML (set content_type to text/html too):
+      #      convert_markdown: true
+      #      # Optional attachments:
+      #      #attachments: attachments.zip,git.diff,./dist/static/*.js
+      #      attachments: ./testResults/editorTestResults.xml
+      #      # Optional priority: 'high', 'normal' (default) or 'low'
+      #      priority: low
+
+      - name: Build iOS
+        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath '.' -executeMethod BuildScript.PerformIOsBuild
+     
+      - name: iOS build details
+        run: ls -la ./builds/iOS/
+       
+      - name: Upload iOS artefacts to Appcenter
+        uses: wzieba/AppCenter-Github-Action@v1
+        with:
+            appName: serzhik.ivanov-gmail.com/Roll-The-Ball-iOS
+            token: ${{secrets.APPCENTER_RTB_IOS_TOKEN}}
+            #group: Testers
+            file: ./builds/iOS/RollTheBall.ipa
+            #notifyTesters: false
+            debug: false
