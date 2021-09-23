@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEditor;
+using UnityEditor.Build.Reporting;
+using UnityEngine;
 
 public class BuildScript
 {
@@ -15,33 +18,46 @@ public class BuildScript
 
         var options = new BuildPlayerOptions()
         {
-            locationPathName = "./builds/Android/",
+            locationPathName = Path.Combine(CommonDir, AndroidDir, "RollTheBall.apk"),
             scenes = _targetScenes,
             target = BuildTarget.Android,
             options = BuildOptions.None
         };
 
-        BuildPipeline.BuildPlayer(options);
+        PerformBuild(options);
     }
 
     public static void PerformIOsBuild()
     {
         CreateiOSDir();
 
-        BuildPipeline.BuildPlayer(
-            _targetScenes,
-            "./builds/iOS/",
-            BuildTarget.iOS,
-            BuildOptions.None);
+        var options = new BuildPlayerOptions()
+        {
+            locationPathName = Path.Combine(CommonDir, IOSDir, "RollTheBall.ipa"),
+            scenes = _targetScenes,
+            target = BuildTarget.iOS,
+            options = BuildOptions.None
+        };
+
+        PerformBuild(options);
     }
 
-    public static void PerformWebGLBuild()
+    private static void PerformBuild(BuildPlayerOptions options) 
     {
-        BuildPipeline.BuildPlayer(
-            _targetScenes,
-            "./builds/WebGL/",
-            BuildTarget.WebGL,
-            BuildOptions.None);
+        BuildReport report = BuildPipeline.BuildPlayer(options);
+        BuildSummary summary = report.summary;
+
+        if (summary.result == BuildResult.Succeeded)
+        {
+            Debug.Log("Build succeeded: " + summary.totalSize + " bytes");
+        }
+
+        if (summary.result == BuildResult.Failed)
+        {
+            Debug.Log("Build failed");
+            // SI: To fail build at this point - use the following line
+            // EditorApplication.Exit(1);
+        }
     }
 
     private static void CreateAndroidDir()

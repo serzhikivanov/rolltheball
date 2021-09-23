@@ -102,7 +102,7 @@ jobs:
       - name: Build iOS
         run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath '.' -executeMethod BuildScript.PerformIOsBuild
 
-      - name: Android build details
+      - name: Build dir content
         run: ls -la ./builds/
 
       - name: Android build details
