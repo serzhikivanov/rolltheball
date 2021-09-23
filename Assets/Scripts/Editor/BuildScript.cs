@@ -1,20 +1,18 @@
-﻿using UnityEditor;
+﻿using System.IO;
+using UnityEditor;
 
 public class BuildScript
 {
     private static string[] _targetScenes = { "Assets/Scenes/SampleScene.unity" };
 
-    public static void PerformWindowsx64Build()
-    {
-        BuildPipeline.BuildPlayer(
-            _targetScenes,
-            "./builds/Winx64/RollTheBall_x64.exe",
-            BuildTarget.StandaloneWindows64,
-            BuildOptions.None);
-    }
+    private const string CommonDir = "./builds";
+    private const string AndroidDir = "Android";
+    private const string IOSDir = "iOS";
 
     public static void PerformAndroidBuild()
     {
+        CreateAndroidDir();
+
         BuildPipeline.BuildPlayer(
             _targetScenes,
             "./builds/Android/RollTheBall.apk",
@@ -24,6 +22,8 @@ public class BuildScript
 
     public static void PerformIOsBuild()
     {
+        CreateiOSDir();
+
         BuildPipeline.BuildPlayer(
             _targetScenes,
             "./builds/iOS/RollTheBall.ipa",
@@ -38,5 +38,29 @@ public class BuildScript
             "./builds/WebGL/",
             BuildTarget.WebGL,
             BuildOptions.None);
+    }
+
+    private static void CreateAndroidDir()
+    {
+        CreateCommonDir();
+
+        var path = Path.Combine(CommonDir, AndroidDir);
+        if (!Directory.Exists(path))
+            Directory.CreateDirectory(path);
+    }
+
+    private static void CreateiOSDir()
+    {
+        CreateCommonDir();
+
+        var path = Path.Combine(CommonDir, IOSDir);
+        if (!Directory.Exists(path))
+            Directory.CreateDirectory(path);
+    }
+
+    private static void CreateCommonDir()
+    {
+        if (!Directory.Exists(CommonDir))
+            Directory.CreateDirectory(CommonDir);
     }
 }
