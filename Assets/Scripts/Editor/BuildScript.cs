@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
 
 public class BuildScript
 {
@@ -7,27 +6,18 @@ public class BuildScript
 
     public static void PerformWindowsx64Build()
     {
-        var err = BuildPipeline.BuildPlayer(
+        BuildPipeline.BuildPlayer(
             _targetScenes,
             "./builds/Winx64/RollTheBall_x64.exe",
             BuildTarget.StandaloneWindows64,
             BuildOptions.None);
-
-        if (err)
-        {
-            Console.WriteLine("Build failed with error: " + err.summary);
-        }
-        else
-        {
-            Console.WriteLine("Build artefacts saved to: " + System.IO.Path.GetFullPath("./builds/Winx64/RollTheBall_x64.exe"));
-        }
     }
 
     public static void PerformAndroidBuild()
     {
         BuildPipeline.BuildPlayer(
             _targetScenes,
-            "./builds/Winx64/RollTheBall_Android.apk",
+            "./builds/Android/RollTheBall.apk",
             BuildTarget.Android,
             BuildOptions.None);
     }
@@ -36,7 +26,7 @@ public class BuildScript
     {
         BuildPipeline.BuildPlayer(
             _targetScenes,
-            "./builds/Winx64/RollTheBall_Android.ipa",
+            "./builds/iOS/RollTheBall.ipa",
             BuildTarget.iOS,
             BuildOptions.None);
     }
