@@ -108,7 +108,7 @@ jobs:
       - name: Upload Win x64 artefacts to Appcenter
         uses: wzieba/AppCenter-Github-Action@v1
         with:
-            appName: RollTheBall Win x64
+            appName: Roll The Ball Winx64
             token: ${{secrets.APPCENTER_RTB_TOKEN}}
             group: Testers
             file: ./builds/Winx64/RollTheBall_x64.exe
