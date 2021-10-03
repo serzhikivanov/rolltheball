@@ -73,6 +73,9 @@ jobs:
       - name: Build iOS
         run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath '.' -executeMethod BuildScript.PerformIOsBuild
      
+      - name: Rerutn License
+        run: /opt/unity/Editor/Unity -quit -batchmode -returnlicense -username '${{secrets.UNITYUSER}}' -password '${{secrets.UNITYPWD}}'
+
       - name: iOS build details
         run: ls -la ./builds/iOS/
        
