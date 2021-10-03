@@ -74,6 +74,9 @@ jobs:
 
       - name: Android build details
         run: ls -la ./builds/Android/
+        
+      - name: Rerutn License
+        run: /opt/unity/Editor/Unity quit -batchmode -returnlicense -username '${{UNITYUSER}}' -password '${{UNITYPWD}}'
       
       - name: Upload Android artefacts to Appcenter
         uses: wzieba/AppCenter-Github-Action@v1
