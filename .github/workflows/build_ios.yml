@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     container: unityci/editor:ubuntu-2019.4.27f1-ios-0.15.0
     steps:
       - uses: actions/checkout@v2
