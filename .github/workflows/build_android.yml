@@ -72,6 +72,9 @@ jobs:
       - name: Build Android
         run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -projectPath '.' -executeMethod BuildScript.PerformAndroidBuild
 
+      - name: Rerutn License
+        run: /opt/unity/Editor/Unity -quit -batchmode -returnlicense -username '${{secrets.UNITYUSER}}' -password '${{secrets.UNITYPWD}}'
+
       - name: Android build details
         run: ls -la ./builds/Android/
       
